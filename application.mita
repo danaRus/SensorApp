@@ -1,0 +1,44 @@
+package main;
+import platforms.xdk110;
+
+native unchecked fn setupTimeThroughSntp() : void
+	header "..\\BigDataProject\\SntpConnection.h";
+	
+native unchecked fn getCurrentTime() : uint32
+	header "..\\BigDataProject\\SntpConnection.h";
+
+/**
+ * Create a wireless connection
+ */
+setup wireless : WLAN {
+	ssid = "wifiNetworkName";
+	authentication = Personal(psk = "password");
+	ipConfiguration = Dhcp();
+}
+
+/**
+ * Create a MQTT instance
+ */
+setup messaging: MQTT {
+	transport = wireless;
+	url = "mqtt://iot.eclipse.org:1883";
+	clientId = "4mN6QMKcVhLvRaxKirLK";
+	var topic = topic("dissertation/sensorData");
+}
+
+/**
+ * Publish the readings & timestamp from the sensor on the MQTT topic
+ */
+every 10 seconds {
+	setupTimeThroughSntp();
+	var value = getCurrentTime();
+	
+	var rotation = gyroscope.x_axis.read();
+  	var temperature = environment.temperature.read();
+  	var force = accelerometer.magnitude.read();
+  	var pressure = environment.pressure.read();
+  
+  	messaging.topic.write(`{"Force": ${force}, "Temperature": ${temperature}, "Pressure": ${pressure}, "Rotation": ${rotation}, "Timestamp": ${value}}`);
+	print(`{"Force": ${force}, "Temperature": ${temperature}, "Pressure": ${pressure}, "Rotation": ${rotation}, "Timestamp": ${value}} \n`);
+}
+
