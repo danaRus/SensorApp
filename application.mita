@@ -23,7 +23,7 @@ setup messaging: MQTT {
 	transport = wireless;
 	url = "mqtt://iot.eclipse.org:1883";
 	clientId = "4mN6QMKcVhLvRaxKirLK";
-	var topic = topic("dissertation/sensorData");
+	var topic = topic("dissertation/sensor_data");
 }
 
 /**
@@ -38,7 +38,7 @@ every 10 seconds {
   	var force = accelerometer.magnitude.read();
   	var pressure = environment.pressure.read();
   
-  	messaging.topic.write(`{"Force": ${force}, "Temperature": ${temperature}, "Pressure": ${pressure}, "Rotation": ${rotation}, "Timestamp": ${value}}`);
-	print(`{"Force": ${force}, "Temperature": ${temperature}, "Pressure": ${pressure}, "Rotation": ${rotation}, "Timestamp": ${value}} \n`);
+  	messaging.topic.write(`{"force": ${force}, "temperature": ${temperature}, "pressure": ${pressure}, "rotation": ${rotation}, "timestamp": ${value}, "armId": "arm0"}`);
+	print(`{"force": ${force}, "temperature": ${temperature}, "pressure": ${pressure}, "rotation": ${rotation}, "timestamp": ${value}, "armId": "arm0"} \n`);
 }
 
