@@ -7,6 +7,11 @@ native unchecked fn setupTimeThroughSntp() : void
 native unchecked fn getCurrentTime() : uint32
 	header "..\\BigDataProject\\SntpConnection.h";
 
+setup accelerometer {
+	bandwidth = BW_500Hz;
+	range = Range_8G; // does not require a conversion into mg
+}
+
 /**
  * Create a wireless connection
  */
