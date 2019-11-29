@@ -26,9 +26,9 @@ setup wireless : WLAN {
  */
 setup messaging: MQTT {
 	transport = wireless;
-	url = "mqtt://iot.eclipse.org:1883";
+	url = "mqtt://mqtt.eclipse.org:1883";
 	clientId = "4mN6QMKcVhLvRaxKirLK";
-	var topic = topic("dissertation/sensor_data");
+	var topic = topic("dissertation/sensor_data_1");
 }
 
 /**
